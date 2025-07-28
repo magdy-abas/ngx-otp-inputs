@@ -9,6 +9,11 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
+    "paths": {
+      "ngx-otp-inputs": [
+        "./dist/ngx-otp-inputs"
+      ]
+    },
     "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,
