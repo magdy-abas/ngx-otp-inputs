@@ -1,22 +1,27 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { CommonModule, NgFor } from '@angular/common';
 
 @Component({
   selector: 'lib-ngx-otp-inputs',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, NgFor],
   template: `
-    <div class="otp-wrapper">
+    <div class="otp-wrapper" [style.direction]="direction" role="group">
       <input
-        *ngFor="let value of otpValues; let i = index"
-        [(ngModel)]="otpValues[i]"
+        *ngFor="let i of otpIndexes"
+        [value]="otpValues[i]"
         (input)="onInput($event, i)"
         (keydown)="onKeyDown($event, i)"
+        (paste)="onPaste($event)"
         maxlength="1"
         type="text"
         class="otp-input"
         [attr.aria-label]="'Digit ' + (i + 1)"
+        [ngStyle]="{
+          width: inputWidth,
+          height: inputHeight,
+          borderColor: borderColor
+        }"
       />
     </div>
   `,
@@ -28,11 +33,8 @@ import { FormsModule } from '@angular/forms';
       }
 
       .otp-input {
-        width: 40px;
-        height: 48px;
         font-size: 20px;
         text-align: center;
-        border: 1px solid #ccc;
         border-radius: 4px;
       }
 
@@ -45,22 +47,38 @@ import { FormsModule } from '@angular/forms';
 })
 export class NgxOtpInputsComponent implements OnInit {
   @Input() length = 6;
-  @Output() completed = new EventEmitter<string>();
-
+  @Input() direction: 'ltr' | 'rtl' = 'ltr';
+  otpIndexes: number[] = [];
   otpValues: string[] = [];
+  @Input() inputWidth = '40px';
+  @Input() inputHeight = '48px';
+  @Input() borderColor = '#ccc';
+
+  @Output() completed = new EventEmitter<string>();
 
   ngOnInit() {
     this.otpValues = Array(this.length).fill('');
+    this.otpIndexes = Array.from({ length: this.length }, (_, i) => i);
   }
 
   onInput(event: Event, index: number) {
     const input = event.target as HTMLInputElement;
+    let val = input.value;
 
-    if (input.value.length > 1) {
-      input.value = input.value.charAt(0);
-    }
+    console.log(`[${index}] Raw input value:`, val);
 
-    if (input.value && index < this.length - 1) {
+    val = val.replace(/\D/g, '');
+    const singleChar = val.charAt(0) || '';
+
+    console.log(`[${index}] Cleaned value:`, singleChar);
+
+    this.otpValues[index] = singleChar;
+
+    input.value = singleChar;
+
+    console.log(`[${index}] otpValues now:`, this.otpValues.join(''));
+
+    if (singleChar && index < this.length - 1) {
       const next = input.nextElementSibling as HTMLInputElement;
       next?.focus();
     }
@@ -71,15 +89,47 @@ export class NgxOtpInputsComponent implements OnInit {
   onKeyDown(event: KeyboardEvent, index: number) {
     const input = event.target as HTMLInputElement;
 
-    if (event.key === 'Backspace' && !input.value && index > 0) {
-      const prev = input.previousElementSibling as HTMLInputElement;
-      prev?.focus();
+    if (event.key === 'Backspace') {
+      if (input.value) {
+        this.otpValues[index] = '';
+      } else if (index > 0) {
+        this.otpValues[index - 1] = '';
+        const prev = input.previousElementSibling as HTMLInputElement;
+        setTimeout(() => prev?.focus(), 0);
+      }
     }
   }
 
+  onPaste(event: ClipboardEvent) {
+    event.preventDefault();
+    const pasted = event.clipboardData?.getData('text') ?? '';
+    const sanitized = pasted.replace(/\D/g, '').slice(0, this.length);
+
+    for (let i = 0; i < sanitized.length; i++) {
+      this.otpValues[i] = sanitized[i];
+    }
+
+    setTimeout(() => {
+      const inputs = Array.from(
+        document.querySelectorAll('.otp-input')
+      ) as HTMLInputElement[];
+      const nextInput = inputs[sanitized.length] || inputs[this.length - 1];
+      nextInput?.focus();
+    });
+
+    this.checkCompletion();
+  }
+
   private checkCompletion() {
+    console.log('Checking if OTP is complete:', this.otpValues);
+
     if (this.otpValues.every((val) => val !== '')) {
+      console.log('OTP completed! Emitting value:', this.otpValues.join(''));
       this.completed.emit(this.otpValues.join(''));
     }
+  }
+
+  onOtpCompleted(value: string) {
+    console.log('OTP value is:', value);
   }
 }

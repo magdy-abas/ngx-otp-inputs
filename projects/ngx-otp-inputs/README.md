@@ -10,11 +10,11 @@ A modern, flexible, and lightweight OTP input component for Angular 14+ built wi
 
 - ✅ Smart auto-focus between input boxes
 - ✅ Backspace navigation
-- 🔄 Paste full code support (coming soon)
-- 🔄 RTL support (coming soon)
-- 🔄 Reactive Forms compatibility
-- 🔄 Custom styling (width, height, border, theme)
-- 🔄 Accessibility (ARIA attributes)
+- ✅ Paste full code support
+- ✅ RTL support (via `[direction]`)
+- ✅ Custom styling (width, height, border)
+- 🔄 Reactive Forms compatibility (coming soon)
+- 🔄 Accessibility (improving ARIA support)
 
 ---
 
