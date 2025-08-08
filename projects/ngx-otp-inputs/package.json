@@ -1,6 +1,28 @@
 {
   "name": "ngx-otp-inputs",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "A customizable standalone OTP input component for Angular 14+ with RTL support, paste, masking, auto-submit, and keyboard navigation.",
+  "author": {
+    "name": "Magdy abas",
+    "url": "https://github.com/magdy-abas"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/magdy-abas/ngx-otp-inputs.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "angular",
+    "otp",
+    "ngx",
+    "otp-input",
+    "standalone",
+    "rtl",
+    "auth",
+    "component",
+    "otp-code",
+    "otp-field"
+  ],
   "peerDependencies": {
     "@angular/common": ">=14.0.0",
     "@angular/core": ">=14.0.0",
