@@ -4,7 +4,8 @@
 [![npm downloads](https://img.shields.io/npm/dm/ngx-otp-inputs.svg)](https://www.npmjs.com/package/ngx-otp-inputs)
 [![license](https://img.shields.io/github/license/magdy-abas/ngx-otp-inputs)](LICENSE)
 [![last commit](https://img.shields.io/github/last-commit/magdy-abas/ngx-otp-inputs)](https://github.com/magdy-abas/ngx-otp-inputs/commits/master)
-🌟 Star this repo to support the project!
+
+##🌟 Star this repo to support the project!
 
 A customizable, standalone OTP input component for Angular 14+ with full RTL support, masking, paste handling, auto-submit, and keyboard navigation.
 
