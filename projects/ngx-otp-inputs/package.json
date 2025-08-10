@@ -1,50 +1,54 @@
 {
   "name": "ngx-otp-inputs",
-  "version": "1.1.0",
-  "description": "Customizable standalone OTP input for Angular 14+ with RTL, paste, masking, auto-submit & keyboard navigation.",
+  "version": "1.1.2",
+  "description": "A customizable standalone Angular OTP input component with RTL/LTR support, masking, auto-submit, and reactive forms integration.",
+  "license": "MIT",
   "author": {
-    "name": "Magdy Abas",
+    "name": "Magdy abas",
     "url": "https://github.com/magdy-abas"
   },
-  "license": "MIT",
   "homepage": "https://github.com/magdy-abas/ngx-otp-inputs#readme",
+  "bugs": {
+    "url": "https://github.com/magdy-abas/ngx-otp-inputs/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/magdy-abas/ngx-otp-inputs.git"
   },
-  "bugs": {
-    "url": "https://github.com/magdy-abas/ngx-otp-inputs/issues"
-  },
   "keywords": [
     "angular",
+    "angular-otp",
+    "angular-component",
+    "angular-17",
     "otp",
-    "ngx",
     "otp-input",
+    "otp-component",
     "standalone",
     "rtl",
     "auth",
-    "component",
-    "otp-code",
-    "otp-field"
-  ],
-  "main": "bundles/ngx-otp-inputs.umd.js",
-  "module": "fesm2022/ngx-otp-inputs.mjs",
-  "es2020": "fesm2022/ngx-otp-inputs.mjs",
-  "typings": "ngx-otp-inputs.d.ts",
-  "files": [
-    "bundles/",
-    "fesm2022/",
-    "esm2022/",
-    "ngx-otp-inputs.d.ts",
-    "lib/",
-    "LICENSE",
-    "README.md"
+    "authentication",
+    "verification",
+    "sms-code",
+    "2fa",
+    "mfa",
+    "masking",
+    "auto-submit",
+    "reactive-forms"
   ],
   "sideEffects": false,
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
   "peerDependencies": {
     "@angular/common": ">=14.0.0",
     "@angular/core": ">=14.0.0",
-    "@angular/forms": ">=14.0.0"
+    "@angular/forms": ">=14.0.0",
+    "rxjs": ">=6.5.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
