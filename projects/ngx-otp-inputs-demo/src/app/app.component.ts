@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { NgIf, JsonPipe } from '@angular/common';
-import { NgxOtpInputsComponent } from '../../../ngx-otp-inputs/src/public-api';
+import { NgxOtpInputsComponent } from 'ngx-otp-inputs';
 
 @Component({
   selector: 'app-root',
