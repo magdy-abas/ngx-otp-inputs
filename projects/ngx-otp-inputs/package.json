@@ -1,16 +1,20 @@
 {
   "name": "ngx-otp-inputs",
-  "version": "1.0.0",
-  "description": "A customizable standalone OTP input component for Angular 14+ with RTL support, paste, masking, auto-submit, and keyboard navigation.",
+  "version": "1.1.0",
+  "description": "Customizable standalone OTP input for Angular 14+ with RTL, paste, masking, auto-submit & keyboard navigation.",
   "author": {
-    "name": "Magdy abas",
+    "name": "Magdy Abas",
     "url": "https://github.com/magdy-abas"
   },
+  "license": "MIT",
+  "homepage": "https://github.com/magdy-abas/ngx-otp-inputs#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/magdy-abas/ngx-otp-inputs.git"
   },
-  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/magdy-abas/ngx-otp-inputs/issues"
+  },
   "keywords": [
     "angular",
     "otp",
@@ -23,6 +27,20 @@
     "otp-code",
     "otp-field"
   ],
+  "main": "bundles/ngx-otp-inputs.umd.js",
+  "module": "fesm2022/ngx-otp-inputs.mjs",
+  "es2020": "fesm2022/ngx-otp-inputs.mjs",
+  "typings": "ngx-otp-inputs.d.ts",
+  "files": [
+    "bundles/",
+    "fesm2022/",
+    "esm2022/",
+    "ngx-otp-inputs.d.ts",
+    "lib/",
+    "LICENSE",
+    "README.md"
+  ],
+  "sideEffects": false,
   "peerDependencies": {
     "@angular/common": ">=14.0.0",
     "@angular/core": ">=14.0.0",
@@ -30,6 +48,5 @@
   },
   "dependencies": {
     "tslib": "^2.3.0"
-  },
-  "sideEffects": false
+  }
 }
