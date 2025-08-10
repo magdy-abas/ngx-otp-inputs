@@ -1,12 +1,57 @@
-# ngx-otp-inputs
+<div align="center">
+
+# 🚀 ngx-otp-inputs
+
+A customizable, **standalone** OTP input component for **Angular 14+** with full **RTL** support, masking, paste handling, auto‑submit, and keyboard navigation.
 
 [![npm version](https://img.shields.io/npm/v/ngx-otp-inputs.svg)](https://www.npmjs.com/package/ngx-otp-inputs)
-[![npm downloads](https://img.shields.io/npm/dm/ngx-otp-inputs.svg)](https://www.npmjs.com/package/ngx-otp-inputs)
-[![last commit](https://img.shields.io/github/last-commit/magdy-abas/ngx-otp-inputs)](https://github.com/magdy-abas/ngx-otp-inputs/commits/master)
+[![Angular](https://img.shields.io/badge/Angular-14%2B-dd0031)](https://angular.io/)
+[![Demo](https://img.shields.io/badge/Live%20Demo-Vercel-000)](https://ngx-otp-inputs-demo.vercel.app)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/magdy-abas/ngx-otp-inputs/blob/master/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/magdy-abas/ngx-otp-inputs?style=social)](https://github.com/magdy-abas/ngx-otp-inputs/stargazers)
 
-## 🌟 Star this repo to support the project!
+> 💖 If you like this project, please consider giving it a ⭐ on GitHub to support the development!
 
-A customizable, standalone OTP input component for Angular 14+ with full RTL support, masking, paste handling, auto-submit, and keyboard navigation.
+</div>
+
+---
+
+## Table of Contents
+
+- [Features](#-features)
+- [Installation](#-installation)
+- [Compatibility](#-compatibility)
+- [Quick Start](#-quick-start)
+  - [Standalone Component](#standalone-component)
+  - [Reactive Forms](#reactive-forms)
+  - [Template-driven Forms](#template-driven-forms)
+  - [NgModule Usage](#ngmodule-usage)
+- [API](#-api)
+  - [Inputs](#inputs)
+  - [Outputs](#outputs)
+  - [Public Methods](#public-methods)
+- [Styling & Theming](#-styling--theming)
+- [Mobile & Accessibility](#-mobile--accessibility)
+- [Best Practices](#-best-practices)
+- [Live Demo](#-live-demo)
+- [Development](#-development)
+- [License](#-license)
+- [Contributing](#-contributing)
+- [FAQ](#-faq)
+
+---
+
+## ✨ Features
+
+- ✅ **RTL & LTR Support**
+- ✅ **ControlValueAccessor**
+- ✅ **Auto Submit**
+- ✅ **Auto Blur**
+- ✅ **Input Masking**
+- ✅ **Paste Handling**
+- ✅ **Keyboard Navigation**
+- ✅ **Accessibility Ready**
+- ✅ **Full Custom Styling**
 
 ---
 
@@ -16,13 +61,21 @@ A customizable, standalone OTP input component for Angular 14+ with full RTL sup
 npm install ngx-otp-inputs
 ```
 
-> Requires Angular 14+ with Standalone Component support.
+> Requires Angular 14+ with **Standalone Component** support.
 
 ---
 
-## 🚀 Usage
+## ✅ Compatibility
 
-### In a standalone component:
+- Angular **14+**
+- Works with **Reactive Forms** & **Template-driven Forms**
+- **SSR-friendly**
+
+---
+
+## ⚡ Quick Start
+
+### Standalone Component
 
 ```ts
 import { NgxOtpInputsComponent } from "ngx-otp-inputs";
@@ -30,80 +83,120 @@ import { NgxOtpInputsComponent } from "ngx-otp-inputs";
 @Component({
   standalone: true,
   imports: [NgxOtpInputsComponent],
-  template: ` <lib-ngx-otp-inputs [length]="6" [maskInput]="true" [autoSubmit]="true" [direction]="'ltr'" (completed)="onCompleted($event)" (changed)="onChanged($event)" /> `,
+  template: `<lib-ngx-otp-inputs [length]="6" [maskInput]="false" [autoSubmit]="true" [direction]="'ltr'" (completed)="onCompleted($event)" (changed)="onChanged($event)" />`,
 })
 export class MyComponent {
   onCompleted(code: string) {
     console.log("Completed:", code);
   }
-
   onChanged(code: string) {
     console.log("Changed:", code);
   }
 }
 ```
 
+### Reactive Forms
+
+```ts
+import { Component } from "@angular/core";
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
+import { NgxOtpInputsComponent } from "ngx-otp-inputs";
+
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, NgxOtpInputsComponent],
+  template: `
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <lib-ngx-otp-inputs formControlName="otp" [length]="6" [inputType]="'number'" [inputMode]="'numeric'" [autoSubmit]="true" (completed)="onCompleted($event)"> </lib-ngx-otp-inputs>
+
+      <button type="submit" [disabled]="form.invalid">Submit</button>
+      <div *ngIf="form.invalid && form.touched" class="error">Enter 6 digits</div>
+    </form>
+  `,
+})
+export class ExampleReactive {
+  form = new FormGroup({
+    otp: new FormControl("", [Validators.required]),
+  });
+
+  onCompleted(code: string) {
+    console.log(code);
+  }
+  submit() {
+    console.log(this.form.value);
+  }
+}
+```
+
+### Template-driven Forms
+
+```html
+<lib-ngx-otp-inputs [(ngModel)]="otp" [length]="4" [direction]="'rtl'" (completed)="onCompleted($event)"> </lib-ngx-otp-inputs>
+
+<p>Value: {{ otp }}</p>
+```
+
+### NgModule Usage
+
+```ts
+import { NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { BrowserModule } from "@angular/platform-browser";
+import { AppComponent } from "./app.component";
+import { NgxOtpInputsComponent } from "ngx-otp-inputs";
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, FormsModule, ReactiveFormsModule, NgxOtpInputsComponent],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
 ---
 
-## 🎯 Features
+## 📚 API
 
-| Feature                 | Description                                                               |
-| ----------------------- | ------------------------------------------------------------------------- |
-| ✅ RTL & LTR Support    | Direction auto-adjusted for RTL languages like Arabic or Hebrew           |
-| ✅ ControlValueAccessor | Works with Reactive & Template Forms (via `[(ngModel)]` or `formControl`) |
-| ✅ Auto Submit          | Automatically emits `completed` when all inputs are filled                |
-| ✅ Auto Blur            | Automatically blurs last input if `autoBlur` is enabled                   |
-| ✅ Input Masking        | Mask input as password using `[maskInput]="true"`                         |
-| ✅ Paste Handling       | Smart pasting support — auto fills all fields                             |
-| ✅ Arrow Key Navigation | Use left/right arrows to move between inputs                              |
-| ✅ Accessibility Ready  | `aria-labels`, `aria-required`, and keyboard friendly                     |
-| ✅ Reset Support        | Call `.reset()` method to clear all input values                          |
-| ✅ Full Custom Styling  | Easily override styles via CSS variables or custom classes                |
+### Inputs
 
----
+| Input          | Type                                                   | Default         | Description                                     |
+| -------------- | ------------------------------------------------------ | --------------- | ----------------------------------------------- |
+| `length`       | `number`                                               | `4`             | Number of OTP digits                            |
+| `direction`    | `'ltr' \| 'rtl'`                                       | `'ltr'`         | Input direction                                 |
+| `disabled`     | `boolean`                                              | `false`         | Disables all OTP inputs                         |
+| `readonly`     | `boolean`                                              | `false`         | Makes inputs read-only                          |
+| `maskInput`    | `boolean`                                              | `false`         | Masks each character as a password              |
+| `autoSubmit`   | `boolean`                                              | `false`         | Emits `completed` automatically                 |
+| `autoBlur`     | `boolean`                                              | `false`         | Blurs last input on completion                  |
+| `autoFocus`    | `boolean`                                              | `true`          | Automatically focuses the first input           |
+| `inputType`    | `'number' \| 'text' \| 'alphanumeric'`                 | `'number'`      | Input filtering pattern                         |
+| `inputMode`    | `'numeric' \| 'text' \| 'decimal' \| 'tel' \| 'email'` | `'numeric'`     | Helps mobile keyboards                          |
+| `inputClass`   | `string`                                               | `'otp-input'`   | Custom CSS class for each OTP input             |
+| `wrapperClass` | `string`                                               | `'otp-wrapper'` | Custom CSS class for the wrapper                |
+| `ariaLabels`   | `string[]`                                             | `[]`            | Accessibility labels for each input             |
+| `status`       | `'success' \| 'failed' \| null`                        | `null`          | Visual state (adds success/error border colors) |
 
-## ⚙️ Inputs
-
-| Input          | Type                                   | Default         | Description                              |
-| -------------- | -------------------------------------- | --------------- | ---------------------------------------- |
-| `length`       | `number`                               | `4`             | Number of OTP digits                     |
-| `direction`    | `'ltr' \| 'rtl'`                       | `'ltr'`         | Input direction                          |
-| `readonly`     | `boolean`                              | `false`         | Makes input read-only                    |
-| `disabled`     | `boolean`                              | `false`         | Disables all input fields                |
-| `maskInput`    | `boolean`                              | `false`         | Masks each character as a password       |
-| `autoSubmit`   | `boolean`                              | `false`         | Emits `completed` automatically          |
-| `autoBlur`     | `boolean`                              | `false`         | Blurs last input on completion           |
-| `inputType`    | `'number' \| 'text' \| 'alphanumeric'` | `'number'`      | Input filtering pattern                  |
-| `inputMode`    | HTML inputmode string                  | `'numeric'`     | Helps mobile keyboards (text, tel, etc.) |
-| `inputClass`   | `string`                               | `'otp-input'`   | CSS class for each input                 |
-| `wrapperClass` | `string`                               | `'otp-wrapper'` | CSS class for the wrapper                |
-| `ariaLabels`   | `string[]`                             | `[]`            | Accessible labels for screen readers     |
-| `status`       | `'success' \| 'failed' \| null`        | `null`          | Adds success/error border colors         |
-
----
-
-## 🔄 Outputs
+### Outputs
 
 | Output      | Type                   | Description                      |
 | ----------- | ---------------------- | -------------------------------- |
 | `completed` | `EventEmitter<string>` | Emits OTP when all fields filled |
 | `changed`   | `EventEmitter<string>` | Emits OTP on every input change  |
 
----
-
-## 🔧 Public Methods
-
-You can call these methods via `@ViewChild()` if needed.
+### Public Methods
 
 ```ts
 @ViewChild(NgxOtpInputsComponent) otp!: NgxOtpInputsComponent;
 
-this.otp.reset(); // Clears all input fields
+// Clear all inputs
+this.otp.reset();
 ```
 
 ---
 
-## 🎨 Custom Styling via CSS Variables
+## 🎨 Styling & Theming
+
+You can fully style the component using CSS variables:
 
 | Variable                       | Default   |
 | ------------------------------ | --------- |
@@ -119,29 +212,59 @@ this.otp.reset(); // Clears all input fields
 
 ---
 
-## 🧪 Coming Soon
+## 📱 Mobile & Accessibility
 
-- Unit tests with Jest
-- Demo playground on Stackblitz
-- Dark mode + theme presets
-- Storybook integration
+- Use `[inputMode]="'numeric'"` for numeric keyboard on mobile.
+- For SMS OTP auto-fill, the first input uses `autocomplete="one-time-code"`.
 
 ---
 
-## ❓ Need Help or Found a Bug?
+## 🧭 Best Practices
 
-Please [open an issue](https://github.com/magdy-abas/ngx-otp-inputs/issues)  
-We welcome bug reports and feature requests!
+- For numeric OTPs, prefer `[inputType]="'number'"`.
+- Fix `length` and rely on form validation.
+- Prefer `inputMode="numeric"` over `type="number"` on mobile.
+
+---
+
+## 🧑‍💻 Development
+
+```bash
+# Clone repository
+git clone https://github.com/magdy-abas/ngx-otp-inputs
+cd ngx-otp-inputs
+
+# Run demo locally
+cd demo
+npm i
+npm start
+
+# Build the library
+cd ../projects/ngx-otp-inputs
+npm run build
+```
 
 ---
 
 ## 📄 License
 
-MIT — free to use for commercial and personal projects.
+[MIT License](https://github.com/magdy-abas/ngx-otp-inputs/blob/master/LICENSE) — free for commercial and personal use.
 
 ---
 
 ## 🤝 Contributing
 
-Pull requests and issues are welcome!  
-Feel free to submit improvements or new features.
+PRs & issues are welcome!
+
+---
+
+## ❓ FAQ
+
+**Q: Why not use a single `<input>` with a mask?**  
+A: Multi-input UX gives clearer visual progress and works better with paste + mobile keyboards.
+
+**Q: Does it work with SSR?**  
+A: Yes. The component avoids direct DOM globals, so it’s SSR-friendly.
+
+**Q: How do I programmatically set the value?**  
+A: If you’re using Reactive Forms, `patchValue({ otp: '123456' })` will distribute characters automatically.

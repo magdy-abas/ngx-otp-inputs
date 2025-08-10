@@ -15,30 +15,45 @@ import { NgxOtpInputsComponent } from '../../../ngx-otp-inputs/src/public-api';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
+  readonly length = 6;
+
   otpForm = new FormGroup({
-    otp: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    otp: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
   get otpControl() {
     return this.otpForm.get('otp')!;
   }
 
-  handleOtp(value: string) {
-    console.log('✅ OTP completed (no submit):', value);
-    // هنا بس بيكمل القيمة لكن مش بيبعت
-    this.otpControl.setValue(value);
-  }
+  onCompleted = (value: string) => {
+    console.log('✅ OTP completed:', value);
+  };
 
-  handleChange(value: string) {
+  onChanged = (value: string) => {
     console.log('🌀 OTP changed:', value);
-    this.otpControl.setValue(value, { emitEvent: false });
-  }
+  };
 
   submit() {
     if (this.otpForm.valid) {
-      console.log('🎉 Form submitted manually:', this.otpForm.value);
+      console.log('🎉 Form submitted:', this.otpForm.value);
     } else {
       console.warn('❌ Invalid OTP - Not Submitted');
+      this.otpControl.markAsTouched();
     }
+  }
+
+  fillDemo() {
+    const code = Array.from({ length: this.length }, () =>
+      Math.floor(Math.random() * 10)
+    ).join('');
+    this.otpForm.patchValue({ otp: code });
+    console.log('🧪 fillDemo ->', code);
+  }
+
+  reset() {
+    this.otpForm.reset({ otp: '' });
   }
 }

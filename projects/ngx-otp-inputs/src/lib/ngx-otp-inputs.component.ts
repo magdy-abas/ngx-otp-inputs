@@ -8,8 +8,8 @@ import {
   ElementRef,
   ViewChildren,
   AfterViewInit,
-  OnChanges,
-  SimpleChanges,
+  forwardRef,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -21,7 +21,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: NgxOtpInputsComponent,
+      useExisting: forwardRef(() => NgxOtpInputsComponent),
       multi: true,
     },
   ],
@@ -54,6 +54,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
         [attr.tabindex]="disabled ? -1 : i + 1"
         [disabled]="disabled"
         [attr.inputmode]="inputMode"
+        [attr.autocomplete]="i === 0 ? 'one-time-code' : null"
         aria-required="true"
       />
     </div>
@@ -128,6 +129,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class NgxOtpInputsComponent
   implements OnInit, ControlValueAccessor, AfterViewInit
 {
+  constructor(private cdr: ChangeDetectorRef) {}
   otpIndexes: number[] = [];
   otpValues: string[] = [];
 
@@ -137,7 +139,7 @@ export class NgxOtpInputsComponent
 
   @Input() disabled = false;
   @Input() inputType: 'number' | 'text' | 'alphanumeric' = 'number';
-  @Input() autoFocus = false;
+  @Input() autoFocus = true;
   @Input() inputClass = 'otp-input';
   @Input() wrapperClass = 'otp-wrapper';
   @Input() readonly = false;
@@ -170,8 +172,7 @@ export class NgxOtpInputsComponent
     if (this.autoFocus) {
       this.focusFirstInput();
     }
-
-    if (this.pendingValue) {
+    if (this.pendingValue != null) {
       this.setOtpValue(this.pendingValue);
       this.pendingValue = null;
     }
@@ -181,7 +182,12 @@ export class NgxOtpInputsComponent
 
   writeValue(value: string): void {
     if (typeof value === 'string') {
-      this.pendingValue = value;
+      if (this.inputs && this.inputs.length) {
+        this.setOtpValue(value);
+        this.pendingValue = null;
+      } else {
+        this.pendingValue = value;
+      }
     } else {
       this.pendingValue = null;
       this.otpValues = Array(this.length).fill('');
@@ -196,7 +202,9 @@ export class NgxOtpInputsComponent
       this.otpValues.push('');
     }
 
-    setTimeout(() => {
+    this.cdr.detectChanges();
+
+    queueMicrotask(() => {
       const inputs = this.inputs.toArray();
       for (let i = 0; i < this.otpValues.length; i++) {
         const inputEl = inputs[i]?.nativeElement;
@@ -216,14 +224,6 @@ export class NgxOtpInputsComponent
   }
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
-  }
-  private clearOtp(): void {
-    this.otpValues = Array(this.length).fill('');
-    this.emitChange();
-
-    setTimeout(() => {
-      this.inputs.first?.nativeElement?.focus();
-    });
   }
 
   onInput(event: Event, index: number) {

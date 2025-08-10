@@ -1,16 +1,21 @@
 <form [formGroup]="otpForm" (ngSubmit)="submit()">
-  <lib-ngx-otp-inputs formControlName="otp" [length]="6" [direction]="'ltr'" [inputType]="'number'" [autoSubmit]="false"
-    [autoFocus]="true" [autoBlur]="true" [maskInput]="false" [inputMode]="'numeric'"
-    [ariaLabels]="['1','2','3','4','5','6']" (completed)="submit()"
-    (changed)="handleChange($event)"></lib-ngx-otp-inputs>
+  <lib-ngx-otp-inputs formControlName="otp" [length]="length" [direction]="'ltr'" [inputType]="'number'"
+    [autoSubmit]="false" [autoFocus]="true" [autoBlur]="true" [maskInput]="false" [inputMode]="'numeric'"
+    [ariaLabels]="['1','2','3','4','5','6']" (completed)="onCompleted($event)" (changed)="onChanged($event)">
+  </lib-ngx-otp-inputs>
 
-  <div style="margin-top: 1rem">
+  <div style="margin-top: 1rem; display:flex; gap:.5rem; flex-wrap:wrap;">
     <button type="submit">✅ Submit</button>
-
-    <p><strong>Form Value:</strong> {{ otpForm.value | json }}</p>
-
-    <p *ngIf="otpControl.invalid && otpControl.touched" style="color: red;">
-      ❌ OTP is required and must be 6 digits
-    </p>
+    <button type="button" (click)="fillDemo()">🧪 Fill demo</button>
+    <button type="button" (click)="reset()">↺ Reset</button>
   </div>
+
+  <div style="margin-top:.75rem">
+    <p><strong>Form Value:</strong> {{ otpForm.value | json }}</p>
+    <p><strong>Valid:</strong> {{ otpForm.valid }}</p>
+  </div>
+
+  <p *ngIf="otpControl.invalid && otpControl.touched" style="color:red; margin-top:.5rem;">
+    ❌ OTP is required and must be {{length}} digits
+  </p>
 </form>
