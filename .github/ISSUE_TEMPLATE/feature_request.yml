@@ -1,0 +1,38 @@
+name: "✨ Feature Request"
+description: "Suggest a new feature for ngx-otp-inputs"
+title: "[Feature]: "
+labels: ["enhancement"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea to make **ngx-otp-inputs** better? Let us know!
+
+  - type: input
+    id: summary
+    attributes:
+      label: Feature Summary
+      placeholder: "Add support for OTP autofill in Safari..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem this feature would solve
+      placeholder: "Currently users have to..."
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      placeholder: "We could add..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any extra info or screenshots
