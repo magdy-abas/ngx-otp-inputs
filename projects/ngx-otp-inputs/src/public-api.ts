@@ -4,3 +4,4 @@
 
 export * from './lib/ngx-otp-inputs.service';
 export * from './lib/ngx-otp-inputs.component';
+export * from './lib/resend-otp/resend-otp.component';

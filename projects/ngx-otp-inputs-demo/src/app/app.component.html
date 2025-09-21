@@ -10,6 +10,12 @@
     <button type="button" (click)="reset()">↺ Reset</button>
   </div>
 
+  <!--  Resend OTP Component -->
+  <div style="margin-top: 1rem;">
+    <lib-ngx-resend-otp [duration]="10" text=" Resend code" (resend)="onResend()" (finished)="onCountdownFinished()">
+    </lib-ngx-resend-otp>
+  </div>
+
   <div style="margin-top:.75rem">
     <p><strong>Form Value:</strong> {{ otpForm.value | json }}</p>
     <p><strong>Valid:</strong> {{ otpForm.valid }}</p>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,15 +7,24 @@ import {
 } from '@angular/forms';
 import { NgIf, JsonPipe } from '@angular/common';
 import { NgxOtpInputsComponent } from 'ngx-otp-inputs';
+import { NgxResendOtpComponent } from './../../../ngx-otp-inputs/src/lib/resend-otp/resend-otp.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ReactiveFormsModule, NgxOtpInputsComponent, NgIf, JsonPipe],
+  imports: [
+    ReactiveFormsModule,
+    NgxOtpInputsComponent,
+    NgxResendOtpComponent,
+    NgIf,
+    JsonPipe,
+  ],
   templateUrl: './app.component.html',
 })
 export class AppComponent {
   readonly length = 6;
+
+  @ViewChild(NgxOtpInputsComponent) otp!: NgxOtpInputsComponent;
 
   otpForm = new FormGroup({
     otp: new FormControl<string>('', {
@@ -55,5 +64,14 @@ export class AppComponent {
 
   reset() {
     this.otpForm.reset({ otp: '' });
+  }
+
+  onResend() {
+    console.log('🔁 Resend OTP clicked');
+    this.otp.reset();
+  }
+
+  onCountdownFinished() {
+    console.log('⏳ Countdown finished, button active again');
   }
 }
